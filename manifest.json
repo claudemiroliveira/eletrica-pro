@@ -1,7 +1,10 @@
 {
   "name": "Elétrica PRO",
   "short_name": "EletricaPRO",
-  "start_url": "eletrica-pro/",
+
+  "start_url": "/eletrica-pro/",
+  "scope": "/eletrica-pro/",
+
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#0d47a1",
@@ -34,5 +37,7 @@
     }
   ]
 }
+
+
 
 
