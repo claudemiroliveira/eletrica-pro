@@ -31,6 +31,31 @@ if ("serviceWorker" in navigator) {
 
 }
 </script>
+<script>
+if ("serviceWorker" in navigator) {
+
+  navigator.serviceWorker.register("/eletrica-pro/service-worker.js")
+  .then(reg => {
+
+    // verifica atualização a cada 30 segundos
+    setInterval(() => {
+      reg.update();
+    }, 30000);
+
+    // quando nova versão assumir controle
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      console.log("Atualização aplicada");
+
+      // reload suave (quase invisível)
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    });
+
+  });
+
+}
+</script>
 
 <body>
 
@@ -62,5 +87,6 @@ if ("serviceWorker" in navigator) {
 
 </body>
 </html>
+
 
 
