@@ -12,7 +12,7 @@ tela.innerHTML=`
 <p>✔ Cálculos rápidos</p>
 <p>✔ Tabelas elétricas</p>
 
-</div>;
+</div>`;
 }
 
 /* TABELAS */
@@ -117,6 +117,7 @@ document.getElementById("resultado").innerHTML =
 }
 
 abrirTela("inicio");
+
 
 
 
