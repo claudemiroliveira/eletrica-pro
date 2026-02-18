@@ -11,7 +11,6 @@ tela.innerHTML=`
 <p>✔ Funciona Offline</p>
 <p>✔ Cálculos rápidos</p>
 <p>✔ Tabelas elétricas</p>
-
 </div>`;
 }
 
@@ -117,6 +116,7 @@ document.getElementById("resultado").innerHTML =
 }
 
 abrirTela("inicio");
+
 
 
 
