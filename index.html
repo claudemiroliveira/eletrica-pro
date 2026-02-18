@@ -12,6 +12,25 @@
 
 <meta name="theme-color" content="#0d47a1">
 </head>
+<script>
+if ("serviceWorker" in navigator) {
+
+  navigator.serviceWorker
+    .register("/eletrica-pro/service-worker.js")
+    .then(reg => {
+
+      // força checagem de atualização sempre que abre
+      reg.update();
+
+      // quando nova versão assumir → recarrega sozinho
+      navigator.serviceWorker.addEventListener("controllerchange", () => {
+        window.location.reload();
+      });
+
+    });
+
+}
+</script>
 
 <body>
 
@@ -43,4 +62,5 @@ if ("serviceWorker" in navigator) {
 
 </body>
 </html>
+
 
