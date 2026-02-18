@@ -9,8 +9,7 @@ const APP_FILES = [
   "/eletrica-pro/icons/icon-512.png"
 ];
 
-// INSTALL
-self.addEventListener("install", event => {
+/self.addEventListener("install", event => {
   self.skipWaiting();
 
   event.waitUntil(
@@ -19,21 +18,18 @@ self.addEventListener("install", event => {
   );
 });
 
-// ACTIVATE
+// avisa páginas abertas que há update
 self.addEventListener("activate", event => {
   event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
-        keys.map(key => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key);
-          }
-        })
-      )
-    )
+    self.clients.matchAll().then(clients => {
+      clients.forEach(client => {
+        client.postMessage({ type: "UPDATE_READY" });
+      });
+    })
   );
 
   self.clients.claim();
+
 });
 
 // FETCH — atualização silenciosa
@@ -56,6 +52,7 @@ self.addEventListener("fetch", event => {
   );
 
 });
+
 
 
 
