@@ -1,16 +1,17 @@
-const CACHE_NAME = "eletrica-pro-v4";
+const CACHE_NAME = "eletrica-pro-v7";
 
 const APP_FILES = [
   "/eletrica-pro/",
   "/eletrica-pro/index.html",
   "/eletrica-pro/manifest.json",
+  "/eletrica-pro/licenca.js",
   "/eletrica-pro/icons/icon-192.png",
   "/eletrica-pro/icons/icon-512.png"
 ];
 
-// INSTALA NOVA VERSÃO
+// INSTALL
 self.addEventListener("install", event => {
-  self.skipWaiting(); // ativa imediatamente
+  self.skipWaiting();
 
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -18,7 +19,7 @@ self.addEventListener("install", event => {
   );
 });
 
-// REMOVE CACHE ANTIGO AUTOMATICAMENTE
+// ACTIVATE
 self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys().then(keys =>
@@ -32,20 +33,30 @@ self.addEventListener("activate", event => {
     )
   );
 
-  self.clients.claim(); // assume controle sem reload
+  self.clients.claim();
 });
 
-// ESTRATÉGIA: SEMPRE BUSCA NOVA VERSÃO PRIMEIRO
+// FETCH — atualização silenciosa
 self.addEventListener("fetch", event => {
+
   event.respondWith(
-    fetch(event.request)
-      .then(response => {
-        const clone = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
-        return response;
-      })
-      .catch(() => caches.match(event.request))
+    caches.match(event.request).then(cached => {
+
+      const networkFetch = fetch(event.request)
+        .then(response => {
+          caches.open(CACHE_NAME)
+            .then(cache => cache.put(event.request, response.clone()));
+          return response;
+        })
+        .catch(() => cached);
+
+      // responde rápido com cache e atualiza depois
+      return cached || networkFetch;
+    })
   );
+
 });
+
+
 
 
